@@ -27,8 +27,10 @@ function inputSearchDynamism() {
        e.preventDefault()
         try {
             // ASSIGN INPUT VALUE TO  wordToSearch
+
             wordToSearch = wordInput.value.trim();
-            console.log("This",wordToSearch);
+            //console.log("This", wordToSearch);
+            
             if (!wordToSearch) {
                 alert("Input Field must have a Value")
                 throw new Error("Error Found")
@@ -54,21 +56,23 @@ function inputSearchDynamism() {
 
 function displaySearchedWord(searchData, parent) {
 
-    //DYNAMICALLY LOOP THE DATA && CREATE ELEMENTS USING .innerHTML 
+    //DYNAMICALLY LOOP THE DATA && CREATE ELEMENTS USING DOM MANIPULATION TO DISPLAY THE DATA IN A USER-FRIENDLY WAY 
+
+    //ARRAY CONDITION
+
     if (Array.isArray(searchData)) {
         const ul = document.createElement("ul");
-        //console.log("app ul");
+        
         searchData.forEach(word => {
             const li = document.createElement("li");
             displaySearchedWord(word, li)
 
             ul.appendChild(li);
-            //divSearchResults.appendChild(ul);
-            //console.log("app li");
         })
         parent.appendChild(ul);
     }
-
+        //OBJECT CONDITION
+    
     else if (typeof (searchData) === "object" && searchData !== null) {
         const objDiv = document.createElement("div");
 
@@ -78,16 +82,7 @@ function displaySearchedWord(searchData, parent) {
             if (typeof value==="string"|| typeof value==="number") {
                 objDiv.innerHTML=([` ${key} : ${value}`]);
             }
-            else if (value===null||value==="") {
-            //key = "";
-                value.trim();
-                key=!key;
-                keyTitle.innerHTML = `${key}`
-                
-                objDiv.innerHTML=`${key}`
-                
-                
-            }
+            //RECURSIVE CALL FOR NESTED OBJECTS AND ARRAYS
             else if (typeof value === "object" || Array.isArray(value)) {
             keyTitle.innerHTML = ` ${key}:`;
 
@@ -99,7 +94,9 @@ function displaySearchedWord(searchData, parent) {
         })
         parent.appendChild(objDiv);
         console.log("objDiv")
+
     } else {
+
         const p = document.createElement("p");
         p.textContent = searchData;
         parent.appendChild(p);
